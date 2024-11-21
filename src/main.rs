@@ -134,8 +134,7 @@ mod tests {
             "flight".to_string(),
         ];
 
-
-        let check = longest_common_prefix(strs);
+        assert_eq!(longest_common_prefix(strs), "fl".to_string());
 
     }
 
