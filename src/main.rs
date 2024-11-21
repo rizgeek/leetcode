@@ -115,9 +115,36 @@ fn is_valid_parentheses(s: String) -> bool {
 }
 
 
+fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+    let mut merged: Vec<i32> = Vec::new();
+    merged.extend_from_slice(&nums1);
+    merged.extend_from_slice(&nums2);
+    merged.sort();
+
+    let len_merged = merged.len();
+    let mid = (len_merged as f64 / 2.0).round() as usize;
+
+    if len_merged  % 2 == 0 {
+        return (merged[mid] + merged[mid - 1]) as f64 / 2.0;
+    }else{
+        return merged[mid - 1] as f64;
+    }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_find_median_sorted_arrays() {
+        let nums1 = vec![1,3];
+        let nums2 = vec![2];
+        let actual = find_median_sorted_arrays(nums1, nums2);
+        let expected = 2.00000;
+
+        assert_eq!(actual, expected)
+    }
 
     #[test]
     fn test_is_valid_parentheses() {
