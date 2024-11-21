@@ -64,7 +64,6 @@ fn roman_to_int(s: String) -> i32 {
 
 } 
 
-
 fn longest_common_prefix(strs: Vec<String>) -> String {
     let len_vec = strs.len();
     
@@ -91,9 +90,40 @@ fn longest_common_prefix(strs: Vec<String>) -> String {
     "".to_string()
 }
 
+fn is_valid_parentheses(s: String) -> bool {
+    if (s.len() % 2) == 1 {return false};
+    
+    let parentheses_map: HashMap<char, char> = HashMap::from([
+        (')', '('),
+        ('}', '{'),
+        (']', '['),
+    ]);
+
+    let mut stack: Vec<char> = Vec::new();
+
+    for ch in s.chars() {
+        if parentheses_map.values().any(|&v| v == ch) {
+            stack.push(ch);
+        } else if let Some(&open) = parentheses_map.get(&ch) {
+           if stack.pop() != Some(open) {
+                return  false;
+           }
+        }
+    }
+
+    stack.is_empty()
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_is_valid_parentheses() {
+        let str: String = "{(())[]}".to_string();
+        is_valid_parentheses(str);
+    }
 
     #[test]
     fn test_longest_common_prefix() {
@@ -116,7 +146,6 @@ mod tests {
        assert_eq!( roman_to_int("LVIII".to_string()), 58);
        assert_eq!( roman_to_int("MCMXCIV".to_string()), 1994);
     }
-
 
     #[test]
      fn test_is_palindrome() {
