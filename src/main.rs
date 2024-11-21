@@ -64,9 +64,51 @@ fn roman_to_int(s: String) -> i32 {
 
 } 
 
+
+fn longest_common_prefix(strs: Vec<String>) -> String {
+    let len_vec = strs.len();
+    
+    let mut strings = strs;
+    strings.sort_by_key(|s| -(s.len() as isize));
+
+    let last = strings.last().unwrap();
+
+    if last.len() <= 0 {
+        return "".to_string();
+    }
+
+    let expected = (&last[0..(last.len())]).to_string();
+
+    for idx in(0..expected.len()).rev() {
+        let prefix = expected[0..&idx+1].to_string();
+        let filter: Vec<_> = strings.iter().filter(|&word| word.starts_with(&prefix)).collect();
+
+        if len_vec == filter.len() {
+            return prefix;
+        }
+    }
+
+    "".to_string()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_longest_common_prefix() {
+        let strs:  Vec<String> = vec![
+            "flower".to_string(),
+            "flow".to_string(),
+            "flight".to_string(),
+            "flight".to_string(),
+        ];
+
+
+        let check = longest_common_prefix(strs);
+        println!("{:?}", check);
+
+    }
 
     #[test]
     fn test_roman_to_int() {
