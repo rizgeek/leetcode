@@ -136,7 +136,6 @@ mod tests {
 
 
         let check = longest_common_prefix(strs);
-        println!("{:?}", check);
 
     }
 
