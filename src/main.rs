@@ -34,11 +34,31 @@ fn two_sum_optimize(nums: Vec<i32>, target: i32) -> Vec<i32> {
     vec![]
 }
 
+fn is_palindrome(x: i32) -> bool{
+    let convert: String = x.to_string();
+    let revers: &String = &convert.chars().rev().collect();
 
+    if convert == *revers {
+        return true;
+    }
+
+    false
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+     fn test_is_palindrome() {
+       assert_eq!( is_palindrome(-32), false);
+       assert_eq!( is_palindrome(32), false);
+       assert_eq!( is_palindrome(-32), false);
+       assert_eq!( is_palindrome(121), true);
+       assert_eq!( is_palindrome(11), true);
+       assert_eq!( is_palindrome(22), true);
+       assert_eq!( is_palindrome(656), true);
+     }
 
     #[test]
     fn test_two_sum() { 
