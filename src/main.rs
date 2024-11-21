@@ -45,9 +45,36 @@ fn is_palindrome(x: i32) -> bool{
     false
 }
 
+fn roman_to_int(s: String) -> i32 {
+    s.chars().rfold(0, |acc, c| {
+        acc + match c {
+            'I' if acc >= 5 => -1,
+            'I' => 1,
+            'V' => 5,
+            'X' if acc >= 50 => -10,
+            'X' => 10,
+            'L' => 50,
+            'C' if acc >= 500 => -100,
+            'C' => 100,
+            'D' => 500,
+            'M' => 1000,
+            _ => 0,
+        }
+    })
+
+} 
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_roman_to_int() {
+       assert_eq!( roman_to_int("III".to_string()), 3);
+       assert_eq!( roman_to_int("LVIII".to_string()), 58);
+       assert_eq!( roman_to_int("MCMXCIV".to_string()), 1994);
+    }
+
 
     #[test]
      fn test_is_palindrome() {
