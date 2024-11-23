@@ -114,7 +114,6 @@ fn is_valid_parentheses(s: String) -> bool {
     stack.is_empty()
 }
 
-
 fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     let mut merged: Vec<i32> = Vec::new();
     merged.extend_from_slice(&nums1);
@@ -131,19 +130,19 @@ fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
     }
 }
 
-
 fn plus_one(digits: Vec<i32>) -> Vec<i32> {
-    let mut total: String = String::new();
+    let len_digit = digits.len();
+    let mut temp = digits;
 
-    for i in digits {
-        let char = (i as u8 + b'0'  ) as char;
-        total.push(char);
+    for i in (0..len_digit).rev() {
+        if temp[i] != 9 {
+            temp[i] += 1;
+            return temp;
+        }
+        temp[i] = 0;
     }
-    
-    let num: usize = total.parse().expect("not valid number");
-    let add_one: usize = num + 1;
-
-    add_one.to_string().chars().map(|c| c.to_digit(10).unwrap() as i32).collect()
+    temp.insert(0, 1);
+    temp
 }
 
 #[cfg(test)]
@@ -156,7 +155,6 @@ mod tests {
         assert_eq!(plus_one(vec![4,3,2,1]), vec![4,3,2,2]);
         assert_eq!(plus_one(vec![9]), vec![1,0]);
         assert_eq!(plus_one(vec![9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9]), vec![1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
-       
     }
 
     #[test]
