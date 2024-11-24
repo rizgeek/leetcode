@@ -145,9 +145,39 @@ fn plus_one(digits: Vec<i32>) -> Vec<i32> {
     temp
 }
 
+fn reverse(x: i32) -> i32 {
+    let mut reversed: String = x.to_string();
+    reversed = reversed.chars().rev().collect();
+
+    if x < 0 {
+        reversed.pop();
+        reversed.insert(0,'-');
+    }
+
+    if let Some(first_char) = reversed.chars().next() {
+        if first_char == '0' {
+            reversed.remove(0);
+        }
+    }
+
+    let result = reversed.parse::<i32>().unwrap_or_else(|_| 0);
+
+    result
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_reverse() {
+        assert_eq!(reverse(123), 321);
+        assert_eq!(reverse(321), 123);
+        assert_eq!(reverse(1230), 321);
+        assert_eq!(reverse(-1230), -321);
+        assert_eq!(reverse(-99993232), -23239999);
+    }
 
     #[test]
     fn test_plus_one() {
