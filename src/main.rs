@@ -222,10 +222,39 @@ fn first_missing_positive_optimize(mut nums: Vec<i32>) -> i32  {
 }
 
 
+fn count_digit_one(n: i32) -> i32 {
+    let mut count: i32 = 0;
+    let mut factor: i32 = 1;
+
+    while factor <= n {
+        let lower_digits: i32 = n % factor;
+        let current_digit: i32 = (n / factor) % 10;
+        let higher_digits: i32 = n / (factor * 10);
+
+        count += higher_digits * factor;
+
+        if current_digit == 1 {
+            count += lower_digits + 1;
+        } else if current_digit > 1 {
+            count += factor;
+        }
+
+        factor *= 10;
+    }
+
+    count
+}
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_count_digit_one() {
+        assert_eq!(count_digit_one(13), 6);
+        assert_eq!(count_digit_one(0), 0);
+    }
 
     #[test]
     fn test_first_missing_positive() {
