@@ -245,10 +245,62 @@ fn count_digit_one(n: i32) -> i32 {
     count
 }
 
+ 
+fn my_atoi(s: String) -> i32 {
+    let s = s.trim();
+    if s.is_empty() {
+        return 0;
+    }
+
+    let mut sign = 1;
+    let mut start = 0;
+
+    if s.chars().next() == Some('-') {
+        sign = -1;
+        start = 1;
+    } else if s.chars().next() == Some('+') {
+        start = 1;
+    }
+
+    let mut result: i32 = 0;
+
+    for c in s[start..].chars() {
+        if !c.is_digit(10) {
+            break;
+        }
+
+        let digit = c.to_digit(10).unwrap() as i32;
+
+        if result > (i32::MAX - digit) / 10 {
+            return if sign == 1 { i32::MAX } else { i32::MIN };
+        }
+
+        result = result * 10 + digit;
+    }
+
+    result * sign
+}
+
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_my_atoi() {
+        assert_eq!(my_atoi("42".to_string()), 42);
+        assert_eq!(my_atoi(" -042".to_string()), -42);
+        assert_eq!(my_atoi("2147483648".to_string()), 2147483647);
+        assert_eq!(my_atoi("-91283472332".to_string()), -2147483648);
+        assert_eq!(my_atoi("1337c0d3".to_string()), 1337);
+        assert_eq!(my_atoi("words and 987".to_string()), 0);
+        assert_eq!(my_atoi("   ".to_string()), 0);
+        assert_eq!(my_atoi("+42".to_string()), 42);
+        assert_eq!(my_atoi("+-42".to_string()), 0);
+        assert_eq!(my_atoi("".to_string()), 0);
+    }
+
 
     #[test]
     fn test_count_digit_one() {
